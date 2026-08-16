@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Cadastro de Clientes</h1>
+    <nav>
+        <a href="/">Início</a>
+        <a href="/horarios">Horários</a>
+        <a href="/agendamentos">Agendamentos</a>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="flash">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h2>Novo Cliente</h2>
+    <form method="POST" action="/clientes/cadastrar">
+        <label>Nome: <input type="text" name="nome" required></label>
+        <label>Telefone: <input type="text" name="telefone" required></label>
+        <label>Email: <input type="email" name="email"></label>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <h2>Clientes Cadastrados</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Nome</th><th>Telefone</th><th>Email</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.nome }}</td>
+                <td>{{ c.telefone }}</td>
+                <td>{{ c.email }}</td>
+                <td><a href="/clientes/excluir/{{ c.id }}" onclick="return confirm('Excluir?')">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
