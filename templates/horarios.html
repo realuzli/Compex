@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Horários</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Horários Disponíveis</h1>
+    <nav>
+        <a href="/">Início</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/agendamentos">Agendamentos</a>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="flash">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h2>Novo Horário</h2>
+    <form method="POST" action="/horarios/cadastrar">
+        <label>Data: <input type="date" name="data" required></label>
+        <label>Hora: <input type="time" name="hora" required></label>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <h2>Horários Cadastrados</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Data</th><th>Hora</th><th>Disponível</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+            {% for h in horarios %}
+            <tr>
+                <td>{{ h.id }}</td>
+                <td>{{ h.data }}</td>
+                <td>{{ h.hora }}</td>
+                <td>{{ 'Sim' if h.disponivel else 'Não' }}</td>
+                <td><a href="/horarios/excluir/{{ h.id }}" onclick="return confirm('Excluir?')">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
