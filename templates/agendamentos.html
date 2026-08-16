@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendamentos</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Agendamentos</h1>
+    <nav>
+        <a href="/">Início</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/horarios">Horários</a>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="flash">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h2>Novo Agendamento</h2>
+    <form method="POST" action="/agendamentos/agendar">
+        <label>Cliente:
+            <select name="cliente_id" required>
+                <option value="">Selecione</option>
+                {% for c in clientes %}
+                <option value="{{ c.id }}">{{ c.nome }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Horário:
+            <select name="horario_id" required>
+                <option value="">Selecione</option>
+                {% for h in horarios %}
+                <option value="{{ h.id }}">{{ h.data }} às {{ h.hora }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Observação: <input type="text" name="observacao"></label>
+        <button type="submit">Agendar</button>
+    </form>
+    <h2>Todos os Agendamentos</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Cliente</th><th>Data</th><th>Hora</th><th>Obs</th><th>Status</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+            {% for a in agendamentos %}
+            <tr>
+                <td>{{ a.id }}</td>
+                <td>{{ a.nome }}</td>
+                <td>{{ a.data }}</td>
+                <td>{{ a.hora }}</td>
+                <td>{{ a.observacao }}</td>
+                <td>{{ 'Cancelado' if a.cancelado else 'Ativo' }}</td>
+                <td>
+                    {% if not a.cancelado %}
+                    <a href="/agendamentos/cancelar/{{ a.id }}" onclick="return confirm('Cancelar?')">Cancelar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
