@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Clínica Estética - Agendamentos</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Clínica Estética - Próximos Agendamentos</h1>
+    <nav>
+        <a href="/clientes">Clientes</a>
+        <a href="/horarios">Horários</a>
+        <a href="/agendamentos">Agendamentos</a>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="flash">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Observação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in agendamentos %}
+            <tr>
+                <td>{{ a.nome }}</td>
+                <td>{{ a.data }}</td>
+                <td>{{ a.hora }}</td>
+                <td>{{ a.observacao }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not agendamentos %}
+        <p>Nenhum agendamento próximo.</p>
+    {% endif %}
+</body>
+</html>
