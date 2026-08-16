@@ -18,7 +18,7 @@ Tecnologias utilizadas
 4. Execute o sistema:
    python app.py
 5. Acesse no navegador:
-http://localhost:5000
+http://127.0.0.1:5000
 Funcionalidades implementadas
 - Cadastro de clientes
 - Cadastro de horários disponíveis
